@@ -1,0 +1,20 @@
+name: join-me-at-event
+
+services:
+
+  discovery-service:
+    build: infra/discovery-service
+    hostname: discovery-service
+    ports:
+      - "8761:8761"
+    networks:
+      - join-me-at-event
+    healthcheck:
+      test: "curl --fail --silent localhost:8761/actuator/health | grep UP || exit 1"
+      timeout: 5s
+      interval: 20s
+      retries: 5
+
+networks:
+  join-me-at-event:
+    name: join-me-at-event
